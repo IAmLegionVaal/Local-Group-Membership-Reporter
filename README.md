@@ -1,20 +1,29 @@
 # Local Group Membership Reporter
 
-A read-only PowerShell toolkit for Windows local group membership reporting.
+PowerShell tools for reporting local Windows group membership and applying guarded membership corrections.
 
-## Features
-
-- Local group inventory
-- Member type and source reporting
-- Empty-group and privileged-group visibility
-- CSV, JSON, and HTML reports
-
-## Run
+## Report
 
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\Local_Group_Membership_Reporter.ps1
 ```
 
-## Safety
+## Repair
 
-Read-only reporting only. No group memberships are changed.
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\Local_Group_Membership_Repair_Toolkit.ps1 -GroupName 'Remote Desktop Users' -Member 'CONTOSO\User1' -AddMember -DryRun
+```
+
+Examples:
+
+```powershell
+.\Local_Group_Membership_Repair_Toolkit.ps1 -GroupName 'Support Operators' -CreateGroup
+.\Local_Group_Membership_Repair_Toolkit.ps1 -GroupName Administrators -Member 'CONTOSO\ITAdmin' -AddMember
+.\Local_Group_Membership_Repair_Toolkit.ps1 -GroupName 'Remote Desktop Users' -Member 'CONTOSO\OldUser' -RemoveMember
+```
+
+The repair script captures group membership before and after each change, supports `-DryRun`, confirmation, logs and clear exit codes. It refuses to remove the current user from the local Administrators group.
+
+## Author
+
+Dewald Pretorius — L2 IT Support Engineer
